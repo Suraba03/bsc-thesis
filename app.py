@@ -44,5 +44,7 @@ def upload_file():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    os.makedirs('uploads', exist_ok=True)
-    app.run(debug=True)
+    # os.makedirs('uploads', exist_ok=True)
+    # app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Получаем порт из переменной окружения
+    app.run(host='0.0.0.0', port=port, debug=True)
