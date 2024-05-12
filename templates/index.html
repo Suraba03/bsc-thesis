@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PPG Signal Processing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function showProgress() {
+            var progressBar = document.getElementById("progress-bar");
+            progressBar.style.width = "100%";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="main-header">PPG Signal Processing</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="results">
+            <h2>Upload PPG Signal (Pickle File)</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="showProgress()">
+                <input type="file" name="file">
+                <input type="submit" class="button" value="Upload">
+            </form>
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+        </div>
+        {% if original_signal %}
+        <div class="results">
+            <h2>Original Signal</h2>
+            <p>Data Points: {{ original_points }}</p>
+            <div class="plot">
+                <img src="{{ url_for('static', filename='original_signal.png') }}" alt="Original Signal">
+            </div>
+        </div>
+        {% endif %}
+        {% if cleaned_signal %}
+        <div class="results">
+            <h2>Cleaned Signal</h2>
+            <div class="plot">
+                <img src="{{ url_for('static', filename='cleaned_signal.png') }}" alt="Cleaned Signal">
+            </div>
+        </div>
+        {% endif %}
+        {% if wavelet_image %}
+        <div class="results">
+            <h2>Wavelet Transform</h2>
+            <div class="plot">
+                <img src="{{ url_for('static', filename='wavelet_image.png') }}" alt="Wavelet Image">
+            </div>
+        </div>
+        {% endif %}
+        {% if classification %}
+        <div class="results">
+            <h2>Classification Result</h2>
+            <p>Score: {{ classification.score }}</p>
+            <p>Model: {{ classification.model_name }}</p>
+            <p>Time Taken: {{ classification.time_taken }} seconds</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
