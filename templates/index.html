@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PPG Signal Processing</title>
+    <title> Type 2 Diabetes Mellitus & Blood Pressure Assesment using PPG signal </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>
         function showProgress() {
@@ -14,12 +14,12 @@
 <body>
     <header>
         <div class="container">
-            <h1 class="main-header">PPG Signal Processing</h1>
+            <h1 class="main-header">Type 2 Diabetes Mellitus & Blood Pressure Assesment using PPG signal</h1>
         </div>
     </header>
     <div class="container">
         <div class="results">
-            <h2>Upload PPG Signal (Pickle File)</h2>
+            <h2>Upload PPG Signal (pickle file with a list inside)</h2>
             <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="showProgress()">
                 <input type="file" name="file">
                 <input type="submit" class="button" value="Upload">
@@ -40,6 +40,8 @@
         {% if cleaned_signal %}
         <div class="results">
             <h2>Cleaned Signal</h2>
+            <p>Lowcut Frequency <b>0.5 Hz</b>, Highcut Frequency <b>8 Hz</b>, Filter Order <b>3</b>, Method <b>Butterworth</b></p>
+            
             <div class="plot">
                 <img src="{{ url_for('static', filename='cleaned_signal.png') }}" alt="Cleaned Signal">
             </div>
@@ -49,18 +51,35 @@
         <div class="results">
             <h2>Wavelet Transform</h2>
             <div class="plot">
-                <img src="{{ url_for('static', filename='wavelet_image.png') }}" alt="Wavelet Image">
+                <img src="{{ url_for('static', filename='wavelet_image.png') }}" alt="Wavelet Image" style="width: 80%; height: auto;">
             </div>
         </div>
         {% endif %}
         {% if classification %}
         <div class="results">
-            <h2>Classification Result</h2>
-            <p>Score: {{ classification.score }}</p>
+            <h2>Diabetes Classification Result</h2>
+            <p>Diabetes Score: {{ classification.score }}</p>
+            
+            <p>Ground Truth: {{ classification.target }}</p>
             <p>Model: {{ classification.model_name }}</p>
             <p>Time Taken: {{ classification.time_taken }} seconds</p>
+        </div>
+
+        <div class="results">
+            <h2>Blood Pressure & Hypertension Estimation</h2>
+            <p>Estimation: {{ blood_pressure.syst_estimated }} / {{ blood_pressure.diast_estimated }} mm Hg </p>
+            <p>Ground Truth: {{ blood_pressure.syst_target }} / {{ blood_pressure.diast_target }} mm Hg </p>
+            <p>Condition: {{ blood_pressure.condition }} </p>
+
+        </div>
+        <div class="results">
+            <h2>Blood Pressure Table</h2>
+            <div class="plot">
+                <img src="{{ url_for('static', filename='bp_table.png') }}" alt="Wavelet Image" style="width: 80%; height: auto;">
+            </div>
         </div>
         {% endif %}
     </div>
 </body>
 </html>
+
